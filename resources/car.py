@@ -1,5 +1,6 @@
 from flask_restful import Resource, reqparse
 from models.car import CarModel
+from flask_jwt import jwt_required
 
 
 class CarList(Resource):
@@ -29,6 +30,7 @@ class Car(Resource):
     car.save_to_db()
     return car.json(), 201
 
+  @jwt_required()
   def get(self, plate):
     car = CarModel.find_by_plate(plate)
     if car:

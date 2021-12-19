@@ -6,6 +6,8 @@ class CarModel(BaseModel):
   id = db.Column(db.Integer, primary_key=True)
   license_plate = db.Column(db.String(7))
   type = db.Column(db.String(80))
+  driver_id = db.Column(db.Integer, db.ForeignKey('drivers.id'), unique=True)
+  driver = db.relationship('DriverModel', back_populates='car')
 
   def __init__(self, plate, type):
     self.license_plate = plate
@@ -31,3 +33,7 @@ class CarModel(BaseModel):
   @classmethod
   def find_by_plate(cls, plate):
     return cls.query.filter_by(license_plate=plate).first()
+
+  @classmethod
+  def find_by_id(cls, id):
+    return cls.query.filter_by(id=id).first()
