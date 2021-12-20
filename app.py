@@ -2,9 +2,14 @@ from flask import Flask
 from flask_restful import Api
 from flask_jwt import JWT
 from resources.car import Car, CarList
+from resources.fleet import Fleet, FleetList
 from resources.user import UserRegister
 from resources.driver import Driver
 from resources.assign import AssignDriverToCar
+from resources.car_fleet import CarFleet
+from models.position import PositionModel
+from models.fleet import FleetModel
+from models.car_fleet import CarFleetLink
 from security import authenticate, identity
 from db import db
 from os import environ
@@ -32,6 +37,9 @@ api.add_resource(Car, '/car/<string:plate>')
 api.add_resource(UserRegister, '/register')
 api.add_resource(Driver, '/driver')
 api.add_resource(AssignDriverToCar, '/assign')
+api.add_resource(Fleet, '/fleet/<string:name>')
+api.add_resource(FleetList, '/fleets')
+api.add_resource(CarFleet, '/car_fleet')
 
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=5000, debug=True)
