@@ -29,3 +29,12 @@ class CarPosition(Resource):
     except Exception:
       return {'message': 'error during database communication...'}, 400
     return {'message': 'Successfully saved!'}, 201
+
+  def get(self, plate):
+    car = CarModel.find_by_attribute(license_plate=plate)
+    if car:
+      return {
+          'positions':
+          [position.json() for position in PositionModel.query.all()]
+      }
+    return {'message': 'Car not found'}, 404

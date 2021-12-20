@@ -18,3 +18,11 @@ class PositionModel(BaseModel, MixinModel):
     self.car_id = car_id
     self.latitude = latitude
     self.longitude = longitude
+
+  def json(self):
+    position_json = {
+        'latitude': self.latitude,
+        'longitude': self.longitude,
+        'date': self.date.isoformat()
+    }
+    return position_json
