@@ -20,10 +20,14 @@ class CarPosition(Resource):
     car = CarModel.find_by_attribute(license_plate=plate)
     if not car:
       return {"message": "this car does not exist"}, 404
-    car_position = PositionModel(car_id=car.id,
-                                 latitude=data['latitude'],
-                                 longitude=data['longitude'])
+    car_position = PositionModel(
+        car_id=car.id,
+        latitude=data['latitude'],
+        longitude=data['longitude'],
+    )
     car_position.date = now()
+    car_position.address = PositionModel.resolve_address(
+        data['latitude'], data['longitude'])
     try:
       car_position.save_to_db()
     except Exception:
